@@ -16,8 +16,8 @@ class DataProducer:
         :return:
             A data-set that contains linearly-separable data for binary classification
         """
-        mean_a = [3, 6]
-        mean_b = [-5, -2]
+        mean_a = [-5, -2]
+        mean_b = [3, 6]
         cov_a = [[0.5, 0], [0, 0.5]]
         cov_b = cov_a
         data_a = np.random.multivariate_normal(mean_a, cov_a, n)
@@ -36,8 +36,8 @@ class DataProducer:
         target = target[permutation]
 
         if plot:
-            plt.scatter(data_a.T[0], data_a.T[1], edgecolors='b')
-            plt.scatter(data_b.T[0], data_b.T[1], edgecolors='r')
+            plt.scatter(data_a.T[0], data_a.T[1], edgecolors='b', marker='o')
+            plt.scatter(data_b.T[0], data_b.T[1], edgecolors='r', marker='x')
             plt.show()
 
         return data, target
