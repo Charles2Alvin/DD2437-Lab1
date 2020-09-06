@@ -23,11 +23,27 @@ class SingleLayerPerceptron:
 
     @staticmethod
     def init_weight(n, m):
+        """
+        Create an initial weight matrix filled with numbers drawn from normal distribution
+        :param n:
+        :param m:
+        :return:
+        """
         return np.random.normal(loc=0, scale=1, size=(n, m))
 
-    def fit(self, patterns: np.ndarray, targets: np.ndarray, n_epoch: int = 20, mode: str = 'sequential', plot: bool = False):
+    def fit(self, patterns: np.ndarray, targets: np.ndarray, n_epoch: int = 20,
+            mode: str = 'sequential', plot: bool = False):
+        """
+        Delegate the training task to the right function
+        :param patterns: input patterns
+        :param targets: learning targets
+        :param n_epoch: number of max epochs
+        :param mode: learn samples sequentially or in batches
+        :param plot: True if need to plot the data-set, false otherwise
+        :return: None
+        """
         if self.algorithm == 'delta':
-            self.fit_delta_rule(patterns, targets, n_epoch)
+            self.fit_delta_rule(patterns, targets, n_epoch, mode)
 
         elif self.algorithm == 'perceptron':
             self.fit_perceptron_learning(patterns, targets, n_epoch, mode)
@@ -93,14 +109,14 @@ class SingleLayerPerceptron:
         self.W = W
         self.out_dim = out_dim
 
-    def fit_delta_rule(self, X, T, n_epoch):
+    def fit_delta_rule(self, X, T, n_epoch, mode):
         # m features, n samples
         m, n = X.shape[0], X.shape[1]
 
         output_dim = 1 if len(T.shape) == 1 else T.shape[0]
 
+        # Add ones as a trick
         W = self.init_weight(output_dim, m + 1)
-
         X = np.row_stack((X, np.ones(n)))
 
         for epoch in range(n_epoch):
