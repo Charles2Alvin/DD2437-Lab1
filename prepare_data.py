@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 class DataProducer:
     @classmethod
-    def produce(cls, n: int, plot: bool):
+    def produce(cls, n: int = 100, plot: bool = False):
         """
         Produces two sets of points from multivariate normal distribution,
         and shuffle samples to get one data set
@@ -22,11 +22,10 @@ class DataProducer:
         cov_b = cov_a
         data_a = np.random.multivariate_normal(mean_a, cov_a, n)
         data_b = np.random.multivariate_normal(mean_b, cov_b, n)
-
-        target_a = np.zeros(n)
-        target_b = np.ones(n)
-
         data = np.append(data_a.T, data_b.T, axis=1)
+
+        target_a = np.linspace(-1, -1, n)
+        target_b = np.ones(n)
         target = np.append(target_a, target_b)
 
         # shuffle the samples
