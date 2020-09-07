@@ -5,8 +5,8 @@ from sklearn.metrics import accuracy_score
 if __name__ == '__main__':
     n = 300
     patterns, targets = DataProducer.produce(n, plot=False)
-    model = SingleLayerPerceptron(eta=0.1, algorithm='perceptron')
-    model.fit(patterns, targets, n_epoch=4000, mode='sequential', plot=True)
+    model = SingleLayerPerceptron(eta=0.0001, algorithm='delta')
+    model.fit(patterns, targets, n_epoch=1000, mode='sequential', plot=True)
     pred = model.predict(patterns)
     accuracy = accuracy_score(targets, pred)
     print("Weights: %s" % model.getWeights())
