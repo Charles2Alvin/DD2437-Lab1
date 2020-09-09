@@ -16,12 +16,17 @@ class DataProducer:
         :return:
             A data-set that contains linearly-separable data for binary classification
         """
-        mean_a = [-5, -2]
-        mean_b = [3, 6]
+        mean_a = [0, -2]
+        mean_b = [1, 1]
         cov_a = [[0.5, 0], [0, 0.5]]
         cov_b = cov_a
+
+        np.random.seed(0)
         data_a = np.random.multivariate_normal(mean_a, cov_a, n)
+
+        np.random.seed(1)
         data_b = np.random.multivariate_normal(mean_b, cov_b, n)
+
         data = np.append(data_a.T, data_b.T, axis=1)
 
         target_a = np.linspace(-1, -1, n)
@@ -29,6 +34,7 @@ class DataProducer:
         target = np.append(target_a, target_b)
 
         # shuffle the samples
+        np.random.seed(2)
         permutation = np.random.permutation(data.shape[1])
 
         data = data[:, permutation]

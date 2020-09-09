@@ -1,11 +1,11 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from learning_rule import DeltaRule, PerceptronRule
+from learning_rule import DeltaRule, PerceptronRule, BackPropagation
 
 
-class SingleLayerPerceptron:
-    rule_map = {'perceptron': PerceptronRule(), 'delta': DeltaRule()}
+class Perceptron:
+    rule_map = {'perceptron': PerceptronRule(), 'delta': DeltaRule(), 'backprop': BackPropagation(n_hidden_nodes=20)}
 
     def __init__(self, eta: float = 0.01, algorithm: str = 'delta', debug: bool = False):
         # learning rate
@@ -55,7 +55,7 @@ class SingleLayerPerceptron:
         m, n = X.shape[0], X.shape[1]
 
         # add ones as the bias trick
-        W = self.init_weight(1, m + 1)
+        W = self.init_weight(self.out_dim, m + 1)
         X = np.row_stack((X, np.ones(n)))
         T = T.reshape(self.out_dim, n)
 
@@ -70,20 +70,17 @@ class SingleLayerPerceptron:
             self.plot_result(X, T, self.W)
 
     def predict(self, x_test: np.ndarray):
-        n = x_test.shape[1]
-        x_test = np.row_stack((x_test, np.ones(n)))
-        prediction = np.sign(self.W.dot(x_test))
-        return prediction[0] if self.out_dim == 1 else prediction
+        return self.rule.predict(self.W, x_test)
 
     def getWeights(self):
         return self.W[0] if self.out_dim == 1 else self.W
 
     @staticmethod
-    def plot_result(patterns, targets, w):
-        n = patterns.shape[1]
+    def plot_result(X, T, W):
+        n = X.shape[1]
 
-        class_0 = np.array([patterns.T[i] for i in range(n) if targets[0][i] == -1]).T
-        class_1 = np.array([patterns.T[i] for i in range(n) if targets[0][i] == 1]).T
+        class_0 = np.array([X.T[i] for i in range(n) if T[0][i] == -1]).T
+        class_1 = np.array([X.T[i] for i in range(n) if T[0][i] == 1]).T
         plt.title("Single layer perceptron learning")
 
         # plot the two classes
@@ -91,8 +88,8 @@ class SingleLayerPerceptron:
         plt.scatter(class_1[0], class_1[1], edgecolors='r', marker='x')
 
         # plot the decision boundary
-        x = np.linspace(min(patterns[0]), max(patterns[0]))
-        y = - (w[0][0] * x + w[0][2]) / w[0][1]
-        plt.plot(x, y)
+        x = np.linspace(min(X[0]), max(X[0]))
+        for i in range(W.shape[0]):
+            y = - (W[i][0] * x + W[i][2]) / W[i][1]
+            plt.plot(x, y)
         plt.show()
-
