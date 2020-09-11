@@ -1,7 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from learning_rule import DeltaRule, PerceptronRule, BackPropagation
+from backprop_rule import BackPropagation
+from delta_rule import DeltaRule
+from perceptron_rule import PerceptronRule
 
 
 class Perceptron:
