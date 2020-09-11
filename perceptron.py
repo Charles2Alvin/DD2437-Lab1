@@ -5,7 +5,7 @@ from learning_rule import DeltaRule, PerceptronRule, BackPropagation
 
 
 class Perceptron:
-    rule_map = {'perceptron': PerceptronRule(), 'delta': DeltaRule(), 'backprop': BackPropagation(n_hidden_nodes=20)}
+    rule_map = {'perceptron': PerceptronRule(), 'delta': DeltaRule(), 'backprop': BackPropagation(n_hidden_nodes=5)}
 
     def __init__(self, eta: float = 0.01, algorithm: str = 'delta', debug: bool = False):
         # learning rate
@@ -23,7 +23,7 @@ class Perceptron:
         self.W = None
 
         # number of output dimensions
-        self.out_dim = None
+        self.dim = None
 
     @staticmethod
     def init_weight(n, m):
@@ -49,15 +49,15 @@ class Perceptron:
         # self.epoch = n_epoch
 
         # the output dimensions
-        self.out_dim = 1 if len(T.shape) == 1 else T.shape[0]
+        self.dim = 1 if len(T.shape) == 1 else T.shape[0]
 
         # m features, n samples
         m, n = X.shape[0], X.shape[1]
 
         # add ones as the bias trick
-        W = self.init_weight(self.out_dim, m + 1)
+        W = self.init_weight(self.dim, m + 1)
         X = np.row_stack((X, np.ones(n)))
-        T = T.reshape(self.out_dim, n)
+        T = T.reshape(self.dim, n)
 
         if mode == 'batch':
             self.rule.fit_batch(W, X, T, self.eta, n_epoch)
@@ -73,7 +73,7 @@ class Perceptron:
         return self.rule.predict(self.W, x_test)
 
     def getWeights(self):
-        return self.W[0] if self.out_dim == 1 else self.W
+        return self.W[0] if self.dim == 1 else self.W
 
     @staticmethod
     def plot_result(X, T, W):
@@ -93,3 +93,6 @@ class Perceptron:
             y = - (W[i][0] * x + W[i][2]) / W[i][1]
             plt.plot(x, y)
         plt.show()
+
+    def plot_learning_curve(self):
+        self.rule.plot_learning_curve()
