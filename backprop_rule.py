@@ -22,6 +22,7 @@ class BackPropagation(LearningRule):
         W = np.random.normal(loc=0, scale=1, size=(self.n_hidden_nodes, M))
         V = np.random.normal(loc=0, scale=1, size=(dim, self.n_hidden_nodes + 1))
 
+        print(W.shape)
         alpha = self.alpha
         d_W = np.zeros(W.shape)
         d_V = np.zeros(V.shape)

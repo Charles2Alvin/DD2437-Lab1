@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 class DataProducer:
     @classmethod
-    def produce(cls, n: int = 100, plot: bool = False):
+    def produce_binary(cls, n: int = 100, plot: bool = False):
         """
         Produces two sets of points from multivariate normal distribution,
         and shuffle samples to get one data set
@@ -46,3 +46,11 @@ class DataProducer:
             plt.show()
 
         return data, target
+
+    @classmethod
+    def produce_bits(cls):
+        X = np.zeros((8, 8))
+        X.fill(-1)
+        for i in range(8):
+            X[i][i] = 1
+        return X

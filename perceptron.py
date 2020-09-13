@@ -7,7 +7,7 @@ from perceptron_rule import PerceptronRule
 
 
 class Perceptron:
-    rule_map = {'perceptron': PerceptronRule(), 'delta': DeltaRule(), 'backprop': BackPropagation(n_hidden_nodes=5)}
+    rule_map = {'perceptron': PerceptronRule(), 'delta': DeltaRule(), 'backprop': BackPropagation(n_hidden_nodes=3)}
 
     def __init__(self, eta: float = 0.01, algorithm: str = 'delta', debug: bool = False):
         # learning rate
@@ -67,7 +67,7 @@ class Perceptron:
         elif mode == 'sequential':
             self.rule.fit_sequential(W, X, T, self.eta, n_epoch)
 
-        self.W = W
+        self.W = self.rule.W
         if plot:
             self.plot_result(X, T, self.W)
 
