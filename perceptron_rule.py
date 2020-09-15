@@ -4,6 +4,8 @@ from learning_rule import LearningRule
 
 
 class PerceptronRule(LearningRule):
+    W = None
+
     def fit_batch(self, W, X, T, eta, n_epoch):
         factor = 1 / (np.max(T) - np.min(T))
 
@@ -21,6 +23,8 @@ class PerceptronRule(LearningRule):
             if sum_error == 0.0:
                 print("\nTraining finished in %s epoch\n" % epoch)
                 break
+
+        self.W = W
 
     def fit_sequential(self, W, X, T, eta, n_epoch):
         # n samples
@@ -55,3 +59,5 @@ class PerceptronRule(LearningRule):
             if sum_error == 0.0:
                 print("\nTraining finished in %s epoch\n" % epoch)
                 break
+
+        self.W = W

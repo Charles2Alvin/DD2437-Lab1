@@ -24,7 +24,8 @@ class LearningRule:
         n = x_test.shape[1]
         x_test = np.row_stack((x_test, np.ones(n)))
         prediction = np.sign(W.dot(x_test))
-        return prediction[0] if len(prediction.shape) == 1 else prediction
+        prediction = prediction[0] if prediction.shape[0] == 1 else prediction
+        return prediction
 
     def plot_learning_curve(self):
         x = np.linspace(1, len(self.error_array) + 1, num=len(self.error_array))

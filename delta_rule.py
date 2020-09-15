@@ -4,6 +4,8 @@ from learning_rule import LearningRule
 
 
 class DeltaRule(LearningRule):
+    W = None
+
     def fit_batch(self, W, X, T, eta, n_epoch):
         for epoch in range(n_epoch):
             delta = - eta * (W.dot(X) - T).dot(X.T)
@@ -17,7 +19,7 @@ class DeltaRule(LearningRule):
                 break
             elif error > np.exp(10):
                 raise RuntimeError("Error becomes nan")
-        return W
+        self.W = W
 
     def fit_sequential(self, W, X, T, eta, n_epoch):
         # m features, n samples
@@ -40,4 +42,5 @@ class DeltaRule(LearningRule):
             if sum_error < threshold:
                 print("\nTraining finished in %s epoch\n" % e)
                 break
-        return W
+
+        self.W = W
